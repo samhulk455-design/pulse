@@ -11,9 +11,13 @@ create table if not exists public.profiles (
   plan text not null default 'free' check (plan in ('free','pro')),
   stripe_customer_id text unique,
   stripe_subscription_id text unique,
+  slack_webhook_url text,                -- nullable; Pro-only feature
   trial_ends_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+-- RLS policy for slack_webhook_url (same as plan — only owner can read/write).
+
 
 -- User-added API keys. The actual key value is encrypted client-side with
 -- pgcrypto symmetric_encrypt using a key from Supabase Vault — never logged,

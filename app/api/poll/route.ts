@@ -147,14 +147,15 @@ async function checkThresholds(
 
   if (!thresholds || thresholds.length === 0) return 0
 
-  // Fetch user info for alerts
+  // Fetch user info for alerts (plan + slack webhook)
   const { data: userData } = await admin
     .from('profiles')
-    .select('plan')
+    .select('plan, slack_webhook_url')
     .eq('user_id', key.user_id)
     .single()
 
   const plan = userData?.plan ?? 'free'
+  const slackWebhookUrl = userData?.slack_webhook_url ?? null
 
   for (const t of thresholds) {
     // Skip thresholds that apply to a DIFFERENT key
@@ -220,16 +221,10 @@ async function checkThresholds(
       alertsFired++
     }
 
-    // Fire Slack alert (pro only)
-    if (plan === 'pro') {
-      // Fetch user's Slack webhook URL from settings (future: settings table)
-      // For now, we store it in the thresholds row as a JSON field
-      // TODO: add slack_webhook_url column to profiles or a settings table
-      const slackUrl = '' // placeholder until we wire Slack settings UI
-      if (slackUrl) {
-        await fireSlackAlert({ webhookUrl: slackUrl, payload })
-        alertsFired++
-      }
+    // Fire Slack alert (pro only, if webhook configured)
+    if (plan === 'pro' && slackWebhookUrl) {
+      await fireSlackAlert({ webhookUrl: slackWebhookUrl, payload })
+      alertsFired++
     }
 
     // Update last_fired_at so we don't spam

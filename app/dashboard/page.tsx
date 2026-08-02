@@ -61,7 +61,10 @@ export default async function DashboardPage() {
         <div className="mx-auto flex max-w-4xl items-center justify-between">
           <h1 className="text-lg font-semibold">Pulse</h1>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-400">{user.email}</span>
+              <Link href="/settings" className="text-sm text-slate-400 hover:text-slate-200">
+                Settings
+              </Link>
+              <span className="text-sm text-slate-400">{user.email}</span>
             <form action="/auth/signout" method="post">
               <button
                 type="submit"
