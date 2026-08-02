@@ -1,6 +1,7 @@
 import { supabaseServer } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import AddThresholdForm from './AddThresholdForm'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +27,7 @@ export default async function DashboardPage() {
   // Fetch thresholds
   const { data: thresholds } = await supabase
     .from('thresholds')
-    .select('id, scope, amount_cents, api_key_id')
+    .select('id, scope, amount_cents, api_key_id, last_fired_at')
     .order('created_at', { ascending: false })
 
   // Fetch last 7 days of spend
@@ -165,25 +166,60 @@ export default async function DashboardPage() {
         {/* Thresholds */}
         <section className="space-y-4">
           <h2 className="text-base font-medium">Alerts</h2>
-          {(thresholds ?? []).length === 0 ? (
-            <div className="rounded-xl border border-dashed border-slate-700 p-8 text-center">
-              <p className="text-sm text-slate-400">
-                No alerts configured. Add one to get pinged when spend crosses your threshold.
-              </p>
-            </div>
-          ) : (
+
+          {/* Existing thresholds */}
+          {(thresholds ?? []).length > 0 && (
             <div className="space-y-2">
               {(thresholds ?? []).map((t) => (
                 <div
                   key={t.id}
                   className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900 px-4 py-3"
                 >
-                  <span className="text-sm capitalize">{t.scope}</span>
-                  <span className="text-sm font-mono text-emerald-400">
-                    ${(t.amount_cents / 100).toFixed(0)}
-                  </span>
+                  <div>
+                    <span className="text-sm capitalize">{t.scope.replace('_', ' ')}</span>
+                    {t.last_fired_at && (
+                      <span className="ml-3 text-xs text-slate-500">
+                        Last fired {new Date(t.last_fired_at).toLocaleDateString()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono text-emerald-400">
+                      ${(t.amount_cents / 100).toFixed(0)}
+                    </span>
+                    <form action={`/api/thresholds?id=${t.id}`} method="DELETE">
+                      <button
+                        type="submit"
+                        className="text-xs text-slate-500 hover:text-red-400"
+                      >
+                        ✕
+                      </button>
+                    </form>
+                  </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Add new threshold form */}
+          {(apiKeys ?? []).length > 0 && (
+            <div className="rounded-xl border border-dashed border-slate-700 p-6">
+              <h3 className="mb-4 text-sm font-medium text-slate-300">Add a new alert</h3>
+              <AddThresholdForm
+                apiKeys={(apiKeys ?? []).map((k) => ({
+                  id: k.id,
+                  provider: k.provider,
+                  label: k.label,
+                }))}
+              />
+            </div>
+          )}
+
+          {(apiKeys ?? []).length === 0 && (
+            <div className="rounded-xl border border-dashed border-slate-700 p-8 text-center">
+              <p className="text-sm text-slate-400">
+                Add an API key first, then you can set up spend alerts.
+              </p>
             </div>
           )}
         </section>
