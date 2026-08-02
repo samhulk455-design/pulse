@@ -1,65 +1,117 @@
-import Image from "next/image";
+import Link from 'next/link'
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      {/* Hero — pain-first per landing copy doc */}
+      <section className="mx-auto max-w-3xl px-6 pt-24 pb-16 text-center">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          Your OpenAI bill just hit $400
+          <br />
+          <span className="text-slate-400">
+            and you found out when the charge hit your card.
+          </span>
+        </h1>
+        <p className="mt-4 text-lg text-slate-400">
+          Pulse pings you on Slack the moment your spend crosses a threshold you set.
+        </p>
+        <div className="mt-8 flex justify-center gap-3">
+          <Link
+            href="/login"
+            className="rounded-lg bg-emerald-500 px-6 py-3 text-sm font-medium text-slate-950 transition hover:bg-emerald-400"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Get a Slack alert before the bill does — Free
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Pain stats — real quotes from real Reddit/HN posts */}
+      <section className="mx-auto max-w-4xl px-6 py-16">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-3xl font-bold text-red-400">$5K</p>
+            <p className="mt-1 text-sm text-slate-400">in one day of Claude Code</p>
+            <p className="mt-2 text-xs text-slate-600">— Reddit, r/claude</p>
+          </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-3xl font-bold text-red-400">$50K</p>
+            <p className="mt-1 text-sm text-slate-400">Azure OpenAI bill in one hour</p>
+            <p className="mt-2 text-xs text-slate-600">— Reddit, r/AZURE</p>
+          </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-3xl font-bold text-red-400">$15K</p>
+            <p className="mt-1 text-sm text-slate-400">annual API cost, one side project</p>
+            <p className="mt-2 text-xs text-slate-600">— Hacker News</p>
+          </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-3xl font-bold text-red-400">10×</p>
+            <p className="mt-1 text-sm text-slate-400">$2/day → $20+/day, couldn't stop it</p>
+            <p className="mt-2 text-xs text-slate-600">— OpenAI Community Forum</p>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works — 3 steps per landing copy doc */}
+      <section className="mx-auto max-w-2xl px-6 py-16">
+        <h2 className="text-center text-2xl font-semibold">How it works</h2>
+        <ol className="mt-8 space-y-6">
+          <li className="flex gap-4">
+            <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-slate-950">1</span>
+            <p className="pt-1 text-slate-300">Paste your OpenAI or Anthropic key</p>
+          </li>
+          <li className="flex gap-4">
+            <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-slate-950">2</span>
+            <p className="pt-1 text-slate-300">Set your threshold — $X/day, $Y/month, or per-key</p>
+          </li>
+          <li className="flex gap-4">
+            <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-slate-950">3</span>
+            <p className="pt-1 text-slate-300">Get Slack + email the moment you cross it</p>
+          </li>
+        </ol>
+      </section>
+
+      {/* Pricing — 2 tiers, no 3-column table */}
+      <section className="mx-auto max-w-md px-6 py-16">
+        <h2 className="text-center text-2xl font-semibold">Pricing</h2>
+        <div className="mt-8 space-y-4">
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <p className="text-sm font-medium text-slate-400">Free</p>
+            <p className="mt-1 text-2xl font-bold">$0</p>
+            <ul className="mt-3 space-y-1 text-sm text-slate-400">
+              <li>1 API key</li>
+              <li>Email alerts only</li>
+              <li>30-min polling</li>
+              <li>7-day history</li>
+            </ul>
+          </div>
+          <div className="rounded-xl border border-emerald-600 bg-slate-900 p-6">
+            <p className="text-sm font-medium text-emerald-400">Pro</p>
+            <p className="mt-1 text-2xl font-bold">$9<span className="text-base font-normal text-slate-400">/mo</span></p>
+            <ul className="mt-3 space-y-1 text-sm text-slate-300">
+              <li>Unlimited keys</li>
+              <li>Slack + email alerts</li>
+              <li>5-min polling</li>
+              <li>90-day history</li>
+            </ul>
+            <Link
+              href="/login"
+              className="mt-4 block rounded-lg bg-emerald-500 py-2 text-center text-sm font-medium text-slate-950 hover:bg-emerald-400"
+            >
+              Subscribe
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer — 4 micro-trust signals */}
+      <footer className="border-t border-slate-800 px-6 py-12">
+        <div className="mx-auto max-w-3xl space-y-3 text-center text-sm text-slate-500">
+          <p>Why I built this: I got a $400 OpenAI bill I didn't catch for 3 days.</p>
+          <p>Keys encrypted with AES-256-GCM at rest. Worker is open source.</p>
+          <p>hi@pulseonit.dev — I read everything, reply within 24h.</p>
+          <p className="pt-2 text-xs">© 2026 Pulse</p>
+        </div>
+      </footer>
     </div>
-  );
+  )
 }
